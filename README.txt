@@ -66,3 +66,60 @@ We can use special tags within the comment to highlight certain aspects of the f
 
 @param, @returns
 
+Lesson 3 - arrays and tuples
+
+let customersArray = ['Custy Stomer', 'C. Oostomar', 'C.U.S. Tomer', 3432434, 'Custo Mer', 'Custopher Ustomer', 3432435, 'Kasti Yastimeur'];
+
+Issue with checking the types in an array using js looping
+
+let customersArray = ['Custy Stomer', 'C. Oostomar', 'C.U.S. Tomer', 3432434, 'Custo Mer', 'Custopher Ustomer', 3432435, 'Kasti Yastimeur'];
+
+function checkCustomersArray(customers) {
+    for (var i = 0; i < customers.length; i++) {
+        if (typeof customers[i] != 'string') {
+            console.log(`Type error: ${customers[i]} should be a string!`)
+        }
+    }
+}
+
+checkCustomersArray(customersArray)
+
+Basically, enforcing a typed array is laborious if done manually (ie only in js)
+
+We can do it easily in ts:
+
+let names: string[] = ['bananas', 'oranges']
+or
+let names: Array<string> = ['bananas', 'oranges']
+
+This was a difficult one: let numbersMulti: number[][][] = [ [[1],[2,3]], [[7],bestNumbers] ]; 
+
+My confusion is this: when you have mutlti-dimensioanal arrarys, the number of arrays in the type is about the depth, rather than the width
+
+Ie, how many opening square brackets are there? 
+
+In TypeScript, when an array is typed with elements of specific types, it’s called a tuple. Tuple types specify both the lengths and the orders of compatible tuples, and will cause an error if either of these conditions are not met
+
+let ourTuple: [string, number, string, boolean] = ['Is', 7 , 'our favorite number?' , false]; 
+
+We can’t assign an array to a tuple variable, even when the elements are of the correct type
+
+Array type inference is always to the least restrictive type - boolean[] not [boolean, boolean, boolean], so that the array can be expanded
+
+Rest parameters should also be typed, ie 
+function blah(firstParameter: string, ...otherParameters: string[]){
+
+}
+
+Rest parameters use the spread syntax (...)
+
+We can use the spread syntax to pass an array of elements as individual parameters to a function:
+
+let codecademyCoordinates: [number, number, string, number, number, string] = [40, 43.2, 'N', 73, 59.8, 'W'];
+gpsNavigate(...codecademyCoordinates)
+
+This is how you specify an array of tuples
+let danceMoves: [string, number, boolean][] = [
+  ['chicken beak', 4, false],
+  ['wing flap', 4, false],
+  }

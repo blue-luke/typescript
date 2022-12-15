@@ -1,5 +1,11 @@
 Codeacademy course on TS
 
+
+
+
+
+
+
 Lesson 1 - types
 
 There is a ts transpiler that checks the code adheres to ts standards
@@ -14,7 +20,7 @@ We can explicitly declare types or let ts infer variable type
 
 Once declared or inferred, the type can't be reassigned
 
-The shape of a variable is the functions that is responds to - its interface
+The shape of a variable is the functions that it responds to - its interface
 
 Run tsc on the ts file - this will outline the ts errors in that file
 
@@ -30,11 +36,17 @@ The tsconfig.json file allows us to specify what aspects of ts we want to use an
 
 There is a codeacademy pro version of this course
 
+
+
+
+
+
+
 Lesson 2 - functions
 
 Function parameters can also have specified types
 
-We can have functional parameters:
+We can have function parameters:
 
 function greet(name?: string)
 
@@ -48,7 +60,7 @@ Parameters with default values don’t need a ? after their name, since assignin
 
 We can assign a variable the value of a function call. The return type of the function call will be inferred to the be the type of the variable
 
-We can specify the type of the return value using function( paramter : TYPE ): TYPE 
+We can specify the type of the return value using function( parameter : TYPE ): TYPE 
 
 In the above, the second TYPE is the TYPE of the return value
 
@@ -66,7 +78,13 @@ We can use special tags within the comment to highlight certain aspects of the f
 
 @param, @returns
 
-Lesson 3 - arrays and tuples
+
+
+
+
+Lessons 3. - custom types
+
+Lesson 3.1 - arrays and tuples
 
 let customersArray = ['Custy Stomer', 'C. Oostomar', 'C.U.S. Tomer', 3432434, 'Custo Mer', 'Custopher Ustomer', 3432435, 'Kasti Yastimeur'];
 
@@ -123,3 +141,115 @@ let danceMoves: [string, number, boolean][] = [
   ['chicken beak', 4, false],
   ['wing flap', 4, false],
   }
+
+
+
+
+
+
+Lesson 3.2 - complex types
+
+They are an extension of types, building on the primitive types
+
+Some complex types are built in, while the user can define others 
+
+The enum type is built in. We use it when we want to enumerate the possible values a variable can take
+
+enum Direction {
+  North,
+  South,
+  East,
+  West
+}
+
+We can then refer to Direction.North, etc 
+
+TypeScript processes these kinds of enum types using numbers. Enum values are assigned a numerical value according to their listed order. The first value is assigned a number of 0, etc 
+
+We can specify the numbers that the enum values evaluate to (but I'm not sure why that's desireable)
+
+enum Direction {
+  North = 8,
+  South = 2,
+  East = 6,
+  West = 4
+}
+
+In the above instance, we have created a Direction type: let way: Direction = Direction.North
+
+We can then use this in a tuple array typed object
+
+***
+We recommend to always use string enums because numeric enums allow for some behaviors that can let bugs sneak into our code, ie:
+***
+
+Bad:
+enum DirectionNumber { North, South, East, West }
+Better:
+enum DirectionString { North = 'NORTH', South = 'SOUTH', East = 'EAST', West = 'WEST' }
+
+We can also have custom object types. They are the most common custom type used in ts
+
+TypeScript places no restrictions on the types of an object’s properties. They can be enums, arrays, and even other object types!
+
+let aCompany: {
+  companyName: string, 
+  boss: {name: string, age: number}, 
+  employees: {name: string, age: number}[], 
+  employeeOfTheMonth: {name: string, age: number},  
+  moneyEarned: number
+};
+
+Running $ tsc FILE.ts will only tell you if there are errors in the ts, not if you are missing some types altogether - unless this is an option in the tsconfig file
+
+We can give our types (cutom types) aliases to make them clearer to refer and therefore easier to use
+
+type MyString = string;
+Or
+type Coord = [number, number, string, number, number, string];
+
+Then, we can just refer to our type alias, rather than its definition
+
+We can also have function types, limiting the kind of function that can be assigned to a variable
+
+let myFavoriteFunction = console.log; // Note the lack of parentheses.
+myFavoriteFunction('Hello World'); // Prints: Hello World
+
+type StringsToNumberFunction = (arg0: string, arg1: string) => number;
+When we assign this type to a function, it will only accept two string arguments and only return a number
+
+let myFunc: StringsToNumberFunction;
+myFunc = function(firstName: string, lastName: string) {
+  return firstName.length + lastName.length;
+};
+
+We can reuse this type elsewhere. It is used in addition to typing parameters and return values
+
+Function types are most useful when applied to callback functions - where you pass function x as an argument to function y, then call function x part way through function y 
+
+***
+Issue here at 6/9, function types - can't get the function name for a typed function
+***
+
+Generics allow for collections of types
+type Family<T> = {
+  parents: [T, T], mate: T, children: T[]
+};
+The T is a placeholder - we could call in Bananas if we wanted to
+The generic Family<T> cannot actually be used as a type in a type annotation. Instead, we must substitute T with some type of our choosing, for example string
+Then, Family<string> is exactly the same as the object type given by setting T to string: {parents:[string,string], mate:string, children: string[]}
+
+Come back to generics? I need to consolidate my knowledge and skills before attempting this topic
+Actually, generics seem okay. See exercise 7/9
+We can make generic types, as above
+We can also make generic functions
+
+Generics mean we don't have to account for all possible types being passed. We simply set up a structure that allows us to pass whatever type we want, and the generic will ensure the structure of the object is consistent
+
+function getFilledArray<T>(value: T, n: number): T[] {
+  return Array(n).fill(value);
+}
+In the above, we use a generic type to indicate what the return type should be. The type can be complex, eg:
+numberArray = getFilledArray<number>(9, 6)
+personArray = getFilledArray<{name: string, age: number}>({name: 'J. Dean', age: 24}, 6)
+

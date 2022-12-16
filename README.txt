@@ -298,3 +298,81 @@ Is it best to type the variables and the parameters, or just the parameters?
 
 The typeof operator is useful when writing type guards. It can check if a variable is a 'string', 'number', 'boolean', or 'symbol'
 So, type of can't check for custom or complex types
+
+
+Lesson 6: Advanced object types
+
+This is a class with a type-safe method
+class Robot {
+  identify(id: number) {
+    console.log(`beep! I'm ${id}`);
+  }
+}
+Types should always help make our code safer, without imposing restrictions on how we write and organize our code.
+
+There’s another way to define types with the interface keyword
+The biggest difference between interface and type is that interface can only be used to type objects, while type can be used to type objects, primitives, and more. 
+As it turns out, type is more versatile and functional than interface. So why would we use interface?
+Because interfaces are only used for objects, which are integral to object oriented programming (OOP)
+
+The interface keyword in TypeScript is especially good for adding types to a class,
+since interface is constrained to typed objects and using class is a way to program with objects
+We use interface with the implements keyword
+This helps us apply oject typing to all objects instantiated by a class
+
+interface Directory {
+  addFile: (name: string) => void;
+}
+
+class DesktopDirectory implements Directory {
+  addFile(name: string) {
+    console.log(`Adding file: ${name}`);
+  }
+
+  showPreview(name: string) {
+    console.log(`Opening preview of file: ${name}`);
+  }
+}
+
+const Desktop = new DesktopDirectory();
+
+We can also type-safe nested objects, eg constructor props (things that class objects are initialised with)
+
+Generally - we us colons to type things and = to instantiate things
+
+We can also compose types of smaller sub-types, making it easier to pick and choose how we type out classes
+
+This is composed types;
+interface About {
+  general: General;
+}
+ 
+interface General {
+  id: number;
+  name: string;
+  version: Version;
+}
+ 
+interface Version {
+  versionNumber: number;
+}
+
+We can also extend one interface, copying all of its types and extending them
+
+Questions:
+- Do we have a prescriptive hierarchy of types in our codebase?
+- Do we have a visual hierarchy?
+- Do we have a list of basic custom types implemented across the codebase?
+
+This tutorial uses an old version of js, not using the Promise syntax
+
+TypeScript allows us to make some type members optional:
+interface OptionsType {
+  name: string;
+  size?: string;
+}
+
+We can then combine this with type guards to execute a function only if it is there
+
+We can define variable property names within an object type with an index signature
+An index signature uses syntax like: [propertyName: string]: string.

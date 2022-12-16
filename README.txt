@@ -278,3 +278,23 @@ type Color = 'green' | 'yellow' | 'red';
 function changeLight(color: Color) {
   // ...
 }
+
+Lesson 5: Type narrowing
+
+Tsc evaluates the code at compile-time. But it can also pick up on run-time issues.
+
+Type guards allow type narrowing. We use the 'in' operator:
+function play(sport: Tennis | Soccer) {
+  if ('serve' in sport) {
+    return sport.serve();
+  }
+ 
+  if ('kick' in sport) {
+    return sport.kick();
+  }
+}
+
+Is it best to type the variables and the parameters, or just the parameters?
+
+The typeof operator is useful when writing type guards. It can check if a variable is a 'string', 'number', 'boolean', or 'symbol'
+So, type of can't check for custom or complex types

@@ -253,3 +253,28 @@ In the above, we use a generic type to indicate what the return type should be. 
 numberArray = getFilledArray<number>(9, 6)
 personArray = getFilledArray<{name: string, age: number}>({name: 'J. Dean', age: 24}, 6)
 
+
+
+
+Lesson 4: union types
+
+These allow us to specify that a variable has properties that are a combination of two or more types
+let ID: string | number;
+function getMarginLeft(margin: string | number) {
+  return { 'marginLeft': margin };
+}
+
+Type narrowing:
+We can combine union typed functions with type guarding, so that the function does different things for different types:
+if (typeof margin === 'string') {
+
+Since TypeScript can infer the function’s return type, there’s no need for us to manually define it. This also applies to union return types.
+
+const timesList: (string | number)[] = [dateNumber, dateString];
+When we put type members in a union, TypeScript will only allow us to use the common methods and properties that all members of the union share.
+
+We can use literal types with TypeScript unions. Literal type unions are useful when we want to create distinct states within a program.
+type Color = 'green' | 'yellow' | 'red';
+function changeLight(color: Color) {
+  // ...
+}
